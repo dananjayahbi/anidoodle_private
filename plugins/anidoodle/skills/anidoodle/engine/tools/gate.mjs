@@ -17,7 +17,7 @@
 // pointed at, so running it can never damage a finished film.
 import { execFileSync, spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { ROOTS } from "./overlay.mjs";
 import { trackProvenance } from "./sidecar.mjs";
@@ -70,7 +70,8 @@ const motionViolations = (changed, meta, windowChanged = changed) => {
   const windows = []; for (let f = 1; f + windowSize <= changed.length; f++) { let m = 0; for (let k = f; k < f + windowSize; k++) m = Math.max(m, windowChanged[k]); if (m < floor && !Array.from({ length: windowSize }, (_, k) => f + k).every((i) => declared(meta.holds, i))) windows.push(f); }
   return { still, windows, windowSize };
 };
-const walk = (dir, out = []) => { for (const e of execFileSync("find", [dir, "-name", "*.ts", "-type", "f"]).toString().trim().split("\n").filter(Boolean)) out.push(e); return out; };
+// walk in Node, not through `find`: on Windows find.exe is a different program and has no -name/-type.
+const walk = (dir, out = []) => { for (const n of readdirSync(dir)) { const p = join(dir, n); if (statSync(p).isDirectory()) walk(p, out); else if (p.endsWith(".ts")) out.push(p); } return out; };
 
 const contractScan = () => {
   head(2, "CONTRACT  the art core cannot reach a clock, the network or a file");

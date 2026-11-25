@@ -53,16 +53,16 @@ export const run = (ok: (cond: boolean, label: string) => void) => {
   let err = ""; try { launchLayout("16x9", { ...content0, band: true }); } catch (e) { err = (e as Error).message; } ok(/sidecar/.test(err), "16x9 refuses a burned-in band: its captions ship as .srt/.vtt");
   // install lines too long for the mono minimum wrap at a natural break, the continuation indented; short ones stay whole
   const T = launchLayout("9x16", content0).end, rowsOf = (r: { text: string; indent: number }[]) => r.map((x) => `${" ".repeat(x.indent)}${x.text}`).join(" | ");
-  ok(T.wrapped && rowsOf(T.rows) === "/plugin marketplace add |   dananjayahbi/anidoodle_private | /plugin install |   anidoodle@dananjayahbi-anidoodle-private" && T.monoPx >= MIN_PX.phone.read, `9x16: anidoodle's own install lines wrap after the command word at ${T.monoPx.toFixed(1)} px: ${rowsOf(T.rows)}`);
+  ok(T.wrapped && rowsOf(T.rows) === "/plugin marketplace add |   dananjayahbi/anidoodle_private | /plugin install anidoodle |   @dananjayahbi-anidoodle-private" && T.monoPx >= MIN_PX.phone.read, `9x16: anidoodle's own install lines wrap after the command word at ${T.monoPx.toFixed(1)} px: ${rowsOf(T.rows)}`);
   const one = installRows(["npm install tally"], 824.8, 32, 41), mixed = installRows(["npm i tally", "/plugin install anidoodle@dananjayahbi-anidoodle-private"], 824.8, 32, 41);
   ok(!one.wrapped && one.rows.length === 1 && one.rows[0].text === "npm install tally" && one.rows[0].indent === 0, "a short install line stays on one row");
   ok(mixed.wrapped && rowsOf(mixed.rows) === "npm i tally | /plugin install |   anidoodle@dananjayahbi-anidoodle-private", `only the line that cannot fit wraps: ${rowsOf(mixed.rows)}`);
-  const at = installRows(["npx anidoodle-package@dananjayahbi-anidoodle-private-latest"], 700, 32, 41);
-  ok(at.wrapped && rowsOf(at.rows) === "npx anidoodle-package |   @dananjayahbi-anidoodle-private-latest", `two rows when one break gives two: before "@" when no space does (${rowsOf(at.rows)})`);
-  const mark = installRows(["dananjayahbi-anidoodle-private@dananjayahbi-anidoodle-private-x"], 600, 32, 41);
-  ok(mark.wrapped && rowsOf(mark.rows) === "dananjayahbi-anidoodle-private |   @dananjayahbi-anidoodle-private-x", `with no space it wraps before "@", the next row opening with it: ${rowsOf(mark.rows)}`);
-  const slash = installRows(["dananjayahbi-anidoodle-private/dananjayahbi-anidoodle-private-x"], 600, 32, 41);
-  ok(slash.wrapped && rowsOf(slash.rows) === "dananjayahbi-anidoodle-private/ |   dananjayahbi-anidoodle-private-x", `or after "/", the row closing with it: ${rowsOf(slash.rows)}`);
+  const at = installRows(["npx tally-package@acme-analytics-latest"], 700, 32, 41);
+  ok(at.wrapped && rowsOf(at.rows) === "npx tally-package |   @acme-analytics-latest", `two rows when one break gives two: before "@" when no space does (${rowsOf(at.rows)})`);
+  const mark = installRows(["acme-analytics-suite@acme-analytics-suite-x"], 600, 32, 41);
+  ok(mark.wrapped && rowsOf(mark.rows) === "acme-analytics-suite |   @acme-analytics-suite-x", `with no space it wraps before "@", the next row opening with it: ${rowsOf(mark.rows)}`);
+  const slash = installRows(["acme-analytics-suite/acme-analytics-suite-x"], 600, 32, 41);
+  ok(slash.wrapped && rowsOf(slash.rows) === "acme-analytics-suite/ |   acme-analytics-suite-x", `or after "/", the row closing with it: ${rowsOf(slash.rows)}`);
   ok(JSON.stringify(installRows(["npm i a", "b init"], 944, 32, 33.6)) === JSON.stringify({ rows: [{ text: "npm i a", indent: 0 }, { text: "b init", indent: 0 }], px: 33.6, wrapped: false }), "lines that fit keep their size and rows exactly");
   err = ""; try { launchLayout("9x16", { ...content0, install: ["npx a-single-package-name-that-is-far-too-long-for-any-phone-frame-at-all"] }); } catch (e) { err = (e as Error).message; } ok(/install lines would be/.test(err), `an install line that cannot be phone-safe is an error: ${err.slice(0, 80)}`);
   ok(parseShapes("16x9, 9x16").join() === "16x9,9x16", "parseShapes reads a --shapes list");

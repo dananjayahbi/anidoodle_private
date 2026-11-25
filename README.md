@@ -100,6 +100,8 @@ node <skill>/engine/tools/soundfetch.mjs list    # the install directory and wha
 node <skill>/engine/tools/soundfetch.mjs get all # download (373 MB), verify by hash, unpack; your agent asks you first
 ```
 
+The pack is a separate download published as a GitHub release. If your copy has no release named `sounds-v1`, set `ANIDOODLE_SOUNDS_URL` to where the pack is hosted: the index and every file are checked against pinned hashes before anything unpacks.
+
 - **Keys:** a piano modelled on a real Steinway grand, Rhodes and Wurlitzer electric pianos, tonewheel and pipe organs, mallets and bells.
 - **Ensemble:** string sections of separate players, brass, flute and clarinet, a choir that sings its vowels, nylon, steel and electric guitars, harp and four kinds of bass.
 - **Drums:** real kits in code (acoustic, 808, 909, dusty, brushes, orchestral with timpani), every hit a little different.
@@ -235,6 +237,14 @@ grok plugin install anidoodle --trust
 ```
 
 `--trust` confirms the install; without it, Grok shows what the plugin can run and stops. You can also install it from the Marketplace tab in `/plugins`.
+
+**OpenCode:** anidoodle is a standard skill folder, so it installs by copying it into the skills directory OpenCode reads:
+
+```bash
+mkdir -p ~/.config/opencode/skills && cp -r skills/anidoodle ~/.config/opencode/skills/
+```
+
+Use `.opencode/skills/` inside a project instead if you want it scoped to that project.
 
 **Any other agent:** anidoodle is a standard skill folder (`skills/anidoodle/SKILL.md`), so it can be copied into any harness that reads skills.
 
