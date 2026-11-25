@@ -1,0 +1,29 @@
+{
+  "name": "anidoodle",
+  "displayName": "anidoodle",
+  "description": "Code-drawn stills, drawing timelapses, films, explainers and interactive web animations in 32 styles, with scores composed in code.",
+  "version": "0.10.1",
+  "icon": "./assets/icon.png",
+  "author": {
+    "name": "dananjayahbi",
+    "url": "https://github.com/dananjayahbi"
+  },
+  "homepage": "https://github.com/dananjayahbi/anidoodle_private",
+  "repository": "https://github.com/dananjayahbi/anidoodle_private",
+  "documentationUrl": "https://github.com/dananjayahbi/anidoodle_private#readme",
+  "supportUrl": "https://github.com/dananjayahbi/anidoodle_private/issues",
+  "privacyPolicyUrl": "https://github.com/dananjayahbi/anidoodle_private/blob/main/PRIVACY.md",
+  "termsOfServiceUrl": "https://github.com/dananjayahbi/anidoodle_private/blob/main/LICENSE",
+  "license": "Apache-2.0",
+  "keywords": [
+    "illustration",
+    "animation",
+    "film",
+    "drawing",
+    "art",
+    "music",
+    "explainer",
+    "generative",
+    "deterministic"
+  ]
+}

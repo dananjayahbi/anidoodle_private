@@ -1,0 +1,28 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "dananjayahbi-anidoodle-private",
+  "owner": {
+    "name": "dananjayahbi",
+    "email": "dananjayahbi@users.noreply.github.com"
+  },
+  "metadata": {
+    "description": "Hand-drawn art, written as code"
+  },
+  "plugins": [
+    {
+      "name": "anidoodle",
+      "source": "./",
+      "description": "Code-drawn stills, drawing timelapses, films, explainers and interactive web animations in 32 styles, with scores composed in code.",
+      "version": "0.10.1",
+      "author": {
+        "name": "dananjayahbi",
+        "url": "https://github.com/dananjayahbi"
+      },
+      "homepage": "https://github.com/dananjayahbi/anidoodle_private",
+      "repository": "https://github.com/dananjayahbi/anidoodle_private",
+      "license": "Apache-2.0",
+      "keywords": ["illustration", "animation", "film", "drawing", "art", "music", "explainer"],
+      "category": "design"
+    }
+  ]
+}
