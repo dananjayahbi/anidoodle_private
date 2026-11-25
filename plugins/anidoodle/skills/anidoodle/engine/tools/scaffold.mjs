@@ -108,7 +108,11 @@ export const ${film}: Film = {
   // the marker that makes this folder a linked project: overlay.mjs puts its src/ in front of the engine's
   // only when this file is here, so another repo that happens to have a src/ never replaces engine files
   if (!existsSync(join(target, PROJECT_MARKER))) writeFileSync(join(target, PROJECT_MARKER), JSON.stringify({ linked: true, film, engine: ENGINE }, null, 2) + "\n");
-  if (!existsSync(join(target, "package.json"))) writeFileSync(join(target, "package.json"), JSON.stringify({ name: film.toLowerCase(), private: true, type: "module", dependencies: { three: "0.170.0" }, scripts: { still: `${tool("still.mjs")} ${film}`, render: `${tool("render.mjs")} ${film}`, framecheck: `${tool("framecheck.mjs")} ${film}`, ship: `${tool("ship.mjs")} ${film}` } }, null, 2) + "\n");
+  // the tools look for playwright in the project that runs them (tools/detect.mjs), so a linked
+  // project pins the same playwright-core the engine uses; three is a runtime dependency too
+  const engPkg = JSON.parse(readFileSync(join(ENGINE, "package.json"), "utf8"));
+  const deps = { three: engPkg.dependencies?.three ?? "0.170.0", ...(engPkg.devDependencies?.["playwright-core"] ? { "playwright-core": engPkg.devDependencies["playwright-core"] } : {}) };
+  if (!existsSync(join(target, "package.json"))) writeFileSync(join(target, "package.json"), JSON.stringify({ name: film.toLowerCase(), private: true, type: "module", dependencies: deps, scripts: { still: `${tool("still.mjs")} ${film}`, render: `${tool("render.mjs")} ${film}`, framecheck: `${tool("framecheck.mjs")} ${film}`, ship: `${tool("ship.mjs")} ${film}` } }, null, 2) + "\n");
   console.log(`linked project ${target}\n  src/canvas-core/${film}.ts, src/hosts/page-${film}.ts, tsconfig.json, package.json, ${PROJECT_MARKER}\n  engine: ${ENGINE}\nnext (from ${target}):\n  ${tool("still.mjs")} ${film} --out out/look.png\n  ${tool("render.mjs")} ${film}\n  ${tool("ship.mjs")} ${film}`);
   process.exit(0);
 }
